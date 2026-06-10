@@ -25,10 +25,10 @@ class BatteryMonitor:
                 title=title,
                 message=message,
                 timeout=10,  # 通知显示10秒
-                app_name="电池监控"
+                app_name="Battery Care"
             )
         except Exception as e:
-            print(f"发送通知失败: {e}")
+            print(f"Failed to send notification: {e}")
 
     def get_battery_info(self):
         """获取电池信息"""
@@ -49,19 +49,19 @@ class BatteryMonitor:
 
         # 电量低于低电量阈值且未通知过
         if percent <= self.low_threshold and not self.notified_low:
-            message = f"当前电量: {percent}%\n建议立即充电！"
+            message = f"Current power: {percent}%\nIt is recommended to charge immediately!"
             if not is_plugged:
-                self.send_notification("电量过低警告", message)
+                self.send_notification("Warning: power lower than threshold.", message)
                 self.notified_low = True
-                print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] 电量过低: {percent}%")
+                print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] power lower than threshold: {percent}%")
 
         # 电量高于高电量阈值且未通知过
         elif percent >= self.high_threshold and not self.notified_high:
             if is_plugged:
-                message = f"当前电量: {percent}%\n建议拔掉电源以延长电池寿命！"
-                self.send_notification("电量充足提醒", message)
+                message = f"Current power: {percent}%\nIt is recommended to unplug the power!"
+                self.send_notification("Warning: power higher than threshold.", message)
                 self.notified_high = True
-                print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] 电量充足: {percent}%")
+                print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] power higher than threshold: {percent}%")
 
         # 重置通知标志(当电量回到中间范围时)
         elif self.low_threshold < percent < self.high_threshold:
@@ -76,10 +76,10 @@ class BatteryMonitor:
 
     def monitor_loop(self):
         """监控循环"""
-        print(f"电池监控已启动")
-        print(f"监控范围: {self.low_threshold}% 或 ≥{self.high_threshold}%")
-        print(f"检查间隔: {self.check_interval}秒")
-        print("按 Ctrl+C 退出程序\n")
+        print(f"Started battery monitoring.")
+        print(f"Power range: [{self.low_threshold}%, {self.high_threshold}%]")
+        print(f"Operating cycle: {self.check_interval} seconds")
+        print("Press Ctrl+C to exit\n")
 
         while self.running:
             try:
@@ -89,11 +89,11 @@ class BatteryMonitor:
                 self.stop()
                 break
             except Exception as e:
-                print(f"监控出错: {e}")
+                print(f"Error monitoring: {e}")
                 time.sleep(self.check_interval)
 
     def stop(self):
         """停止监控"""
         self.running = False
-        print("\n电池监控已停止")
+        print("\nStopped battery monitoring.")
         sys.exit(0)
