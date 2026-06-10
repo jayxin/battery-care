@@ -13,39 +13,39 @@ def create_gui():
     monitor = BatteryMonitor()
 
     # 设置阈值
-    tk.Label(root, text="Threshold Setting", font=("Arial", 14, "bold")).pack(pady=10)
+    tk.Label(root, text="Parameter Setting", font=("Arial", 16, "bold")).pack(pady=10)
 
     frame1 = tk.Frame(root)
     frame1.pack(pady=5)
-    tk.Label(frame1, text="Low battery threshold:").pack(side=tk.LEFT, padx=5)
+    tk.Label(frame1, text="Low battery threshold:", font=("Arial", 14, "normal")).pack(side=tk.LEFT, padx=5)
     low_var = tk.IntVar(value=30)
     low_spin = tk.Spinbox(frame1, from_=10, to=50, textvariable=low_var, width=10)
     low_spin.pack(side=tk.LEFT, padx=5)
-    tk.Label(frame1, text="%").pack(side=tk.LEFT)
+    tk.Label(frame1, text="%", font=("Arial", 14, "normal")).pack(side=tk.LEFT)
 
     frame2 = tk.Frame(root)
     frame2.pack(pady=5)
-    tk.Label(frame2, text="High battery threshold:").pack(side=tk.LEFT, padx=5)
+    tk.Label(frame2, text="High battery threshold:", font=("Arial", 14, "normal")).pack(side=tk.LEFT, padx=5)
     high_var = tk.IntVar(value=80)
     high_spin = tk.Spinbox(frame2, from_=50, to=95, textvariable=high_var, width=10)
     high_spin.pack(side=tk.LEFT, padx=5)
-    tk.Label(frame2, text="%").pack(side=tk.LEFT)
+    tk.Label(frame2, text="%", font=("Arial", 14, "normal")).pack(side=tk.LEFT)
 
     frame3 = tk.Frame(root)
     frame3.pack(pady=5)
-    tk.Label(frame3, text="Operating cycle:").pack(side=tk.LEFT, padx=5)
+    tk.Label(frame3, text="Operating cycle:", font=("Arial", 14, "normal")).pack(side=tk.LEFT, padx=5)
     interval_var = tk.IntVar(value=60)
     interval_spin = tk.Spinbox(frame3, from_=10, to=300, textvariable=interval_var, width=10)
     interval_spin.pack(side=tk.LEFT, padx=5)
-    tk.Label(frame3, text="seconds").pack(side=tk.LEFT)
+    tk.Label(frame3, text="seconds", font=("Arial", 14, "normal")).pack(side=tk.LEFT)
 
     # 实时显示电量
-    tk.Label(root, text="Current battery status", font=("Arial", 14, "bold")).pack(pady=(20,10))
+    tk.Label(root, text="Battery Status", font=("Arial", 16, "bold")).pack(pady=(20,10))
 
-    percent_label = tk.Label(root, text="Power: --%", font=("Arial", 24))
+    percent_label = tk.Label(root, text="Power: --%", font=("Arial", 14))
     percent_label.pack()
 
-    status_label = tk.Label(root, text="Status: --", font=("Arial", 12))
+    status_label = tk.Label(root, text="Status: --", font=("Arial", 14))
     status_label.pack(pady=5)
 
     def update_status():
@@ -54,7 +54,7 @@ def create_gui():
         if percent is not None:
             percent_label.config(text=f"Power: {percent}%")
             if is_plugged:
-                status_label.config(text="Status: Charging", fg="lightgreen")
+                status_label.config(text="Status: Charging", fg="green")
             else:
                 status_label.config(text="Status: Unplugged", fg="red")
         root.after(1000, update_status)
